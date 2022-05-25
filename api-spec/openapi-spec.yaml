@@ -1,0 +1,161 @@
+openapi: 3.0.1
+info:
+  title: DWP File Upload Service - PIP
+  description: REST API for anti-virus scan or persist to AWS S3 (optional)
+  version: '@project.version@'
+
+servers:
+  - url: 'https://localhost:8080'
+
+paths:
+  /v1/scan:
+    post:
+      tags:
+        - scan virus only
+      summary: POST call to scan file for virus only
+      description: this endpoint is called to scan file for virus
+      operationId: scanOnly
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: file to be uploaded
+      responses:
+        200:
+          description: no virus detected
+        400:
+          description: BAD REQUEST - badly formed JSON or duplicate entry
+        406:
+          description: NOT ACCEPTABLE - virus detected in the file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailureResponse'
+        500:
+          description: INTERNAL SERVER ERROR - an unknown internal error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailureResponse'
+
+  /v1/scan/upload:
+    post:
+      tags:
+        - scan and persist
+      summary: POST call to scan file for virus, and persist to disk (optional)
+      description: this endpoint is called to scan file for virus and persist it in AWS s3 (optional)
+      operationId: scanAndUpload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+                - meta
+              properties:
+                meta:
+                  $ref: "#/components/schemas/ServiceRequestObject"
+                file:
+                  type: string
+                  format: binary
+                  description: file to be uploaded
+      responses:
+        200:
+          description: no virus detected and file upload to S3 bucket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileUploadResponse'
+        400:
+          description: BAD REQUEST - badly formed JSON or duplicate entry
+        406:
+          description: NOT ACCEPTABLE - virus detected in the file or file is password protected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailureResponse'
+        500:
+          description: INTERNAL SERVER ERROR - an unknown internal error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailureResponse'
+components:
+  schemas:
+    ServiceRequestObject:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          description: id
+          example: such as a claim id
+          type: string
+          minLength: 1
+        fileName:
+          description: file name
+          example: image.jpg
+          type: string
+        mime:
+          description: file type
+          example: "image/jpg"
+          type: string
+        sizeKb:
+          description: file size in KB
+          example: 128
+          type: integer
+        checksum:
+          description: MD5 file checksum
+          type: string
+        persist:
+          description: persit file
+          type: boolean
+          default: false
+
+    FileUploadResponse:
+      allOf:
+        - $ref: '#/components/schemas/s3Ref'
+        - $ref: '#/components/schemas/bucket'
+        - $ref: '#/components/schemas/fileSizeKb'
+    s3Ref:
+      type: object
+      properties:
+        s3Ref:
+          description: S3 file key
+          example: 123_PRESCRIPTION.JPG.2020
+          type: string
+
+    bucket:
+      type: object
+      properties:
+        bucket:
+          description: bucket name
+          example: "pip-bucket"
+          type: string
+
+    fileSizeKb:
+      type: object
+      properties:
+        fileSizeKb:
+          description: unencrypted file size in kb
+          type: integer
+
+    FailureResponse:
+      allOf:
+        - $ref: '#/components/schemas/message'
+
+    message:
+      type: object
+      properties:
+        message:
+          description: detail description
+          type: string

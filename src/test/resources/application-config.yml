@@ -1,0 +1,24 @@
+spring:
+  main:
+    banner-mode: 'off'
+  jmx:
+    enabled: false
+
+uk:
+  gov:
+    dwp:
+      health:
+        converter:
+          services:
+            - name: test-ms-word-pdf
+              uri: http://word2pdf
+              endpoint: /v1/convert/s3
+              types:
+                - application/msword
+                - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+            - name: test-image-pdf
+              uri: http://img2pdf
+              endpoint: /v1/convert/s3
+              types:
+                - image/jpeg
+                - image/png

@@ -1,0 +1,49 @@
+version: "2.1"
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      - PORT_WEB_UI=9915
+      - SERVICES=s3,kms
+      - HOSTNAME_EXTERNAL=localstack
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:4566/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./init/localstack:/docker-entrypoint-initaws.d
+    ports:
+      - 4566:4566
+    expose:
+      - 4566
+
+  ms-clamav-s3-file-submission-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 8080
+    ports:
+      - 9935:8080
+    depends_on:
+      - localstack
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - AWS_S3_AWS_REGION=eu-west-2
+      - AWS_S3_ENDPOINT_OVERRIDE=http://localstack:4566
+      - AWS_S3_BUCKET=pip-bucket
+      - AWS_S3_ENCRYPT_ENABLE=true
+      - AWS_ENCRYPTION_KMS_OVERRIDE=http://localstack:4566
+      - AWS_ENCRYPTION_DATA_KEY=alias/test_key_id
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_NAME=test-ms-word-pdf
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_URI=http://word2pdf
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_ENDPOINT=/v1/convert/s3
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_TYPES[0]=application/msword
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_TYPES[1]=application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_NAME=test-image-pdf
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_URI=http://img2pdf
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_ENDPOINT=/v1/convert/s3
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_TYPES[0]=image/jpeg
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_TYPES[1]=image/png

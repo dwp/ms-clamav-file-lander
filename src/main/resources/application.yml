@@ -1,0 +1,23 @@
+app_name: @project.artifactId@
+app_version: @project.version@
+
+spring:
+  jmx:
+    enabled: false
+  config:
+    activate:
+      on-profile: dev
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, info, health
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    prometheus:
+      enabled: true

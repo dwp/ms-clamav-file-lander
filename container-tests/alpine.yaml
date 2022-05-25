@@ -1,0 +1,12 @@
+schemaVersion: "2.0.0"
+
+fileExistenceTests:
+  - name: 'Jar File'
+    path: '/client.jar'
+    shouldExist: true
+  - name: 'Shell script'
+    path: '/entrypoint.sh'
+    shouldExist: true
+
+metadataTest:
+  cmd: ["/entrypoint.sh"]

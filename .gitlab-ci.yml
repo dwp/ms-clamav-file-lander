@@ -1,0 +1,48 @@
+variables:
+  # Product
+  PRODUCT: shared
+  # Config
+  BUILD_TYPE: MAVEN
+  MAVEN_IMAGE: "maven:3-jdk-11"
+  MVN_OPTS: "-DLOG_LEVEL=INFO"
+  MVN_CLI_OPTS: "-Dhttp.proxyHost=proxy.local.dwpcloud.uk -Dhttp.proxyPort=3128 -Dhttp.nonProxyHosts='localhost|docker|127.0.0.1' -Dhttps.proxyHost=proxy.local.dwpcloud.uk -Dhttps.proxyPort=3128 -Dhttps.nonProxyHosts='localhost|docker|127.0.0.1' --batch-mode"
+  # Tactical
+  DEV_BUCKET_URL: "s3://uk.gov.dwp.deploy-artefacts"
+  LOCAL_PROJECT_NAME: shared #Used in the tactical fragments to build artifact destinations. In future these will be deprecated.
+  LOCAL_COMPONENT_NAME: ms-clamav-file-lander #Used in the tactical fragments to build artifact destinations. In future these will be deprecated.
+  DOCKER_NEXUS_COMPONENT: ms-clamav-file-lander
+  HTDS_DOCKER_PUSH_REPO: nexus.service.health-dev.dwpcloud.uk:5001
+  REPO_OWNER: "Team Goldcrest"
+  REPO_PATTERN: "V3 CI"
+  # Open-Source
+  GITHUB_REPO_NAME: ms-clamav-file-lander
+
+stages:
+  - update-version
+  - code-quality
+  - code-test
+  - application-build
+  - code-analysis
+  - image-build
+  - container-image-test
+  - image-push
+  - tactical-push-publish
+  - update-project-metadata
+  - create-schedules
+  - open-source
+  - repo-gen
+
+include:
+  - local: "/gitlab-ci/includes.yml"
+
+required-fragment-check:
+  variables:
+    RULESET: MAVEN_CI
+
+create-develop-weekly-schedule:
+  extends: .add-schedule
+  variables:
+    SCHEDULE_NAME: Weelky-Develop-CI-Build
+    SCHEDULE_BRANCH: develop
+    SCHEDULE_CRON: "0 22 * * 0"
+    RANDOMIZE_MINS: "true"
