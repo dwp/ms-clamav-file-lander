@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   localstack:
-    image: localstack/localstack:latest
+    image: localstack/localstack:0.14
     environment:
       - PORT_WEB_UI=9915
       - SERVICES=s3,kms
@@ -15,7 +15,7 @@ services:
     volumes:
       - ./init/localstack:/docker-entrypoint-initaws.d
     ports:
-      - 4566:4566
+      - "4566:4566"
     expose:
       - 4566
 
@@ -26,7 +26,7 @@ services:
     expose:
       - 8080
     ports:
-      - 9935:8080
+      - "9935:8080"
     depends_on:
       - localstack
     environment:

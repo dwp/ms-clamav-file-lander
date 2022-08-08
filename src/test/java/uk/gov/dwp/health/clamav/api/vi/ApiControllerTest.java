@@ -52,7 +52,7 @@ class ApiControllerTest {
     FileUploadResponse response = new FileUploadResponse();
     when(fileSubmission.handleFileLanding(any(), any())).thenReturn(response);
     when(validator.validate(any(ServiceRequestObject.class))).thenReturn(Collections.emptySet());
-    ResponseEntity<FileUploadResponse> actual = cut.scanAndUpload(meta, file);
+    ResponseEntity<FileUploadResponse> actual = cut._scanAndUpload(meta, file);
     assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.OK);
   }
 
@@ -64,7 +64,7 @@ class ApiControllerTest {
     Set<ConstraintViolation<ServiceRequestObject>> violations = spy(new HashSet<>());
     given(violations.size()).willReturn(1);
     when(validator.validate(any(ServiceRequestObject.class))).thenReturn(violations);
-    assertThrows(RequestValidationException.class, () -> cut.scanAndUpload(meta, file));
+    assertThrows(RequestValidationException.class, () -> cut._scanAndUpload(meta, file));
   }
 
   @Test
@@ -91,7 +91,7 @@ class ApiControllerTest {
     InputStream inputStream = mock(InputStream.class);
     when(file.getInputStream()).thenReturn(inputStream);
     when(clamAvClient.scanForVirus(any())).thenReturn(false);
-    ResponseEntity<Void> actualResp = cut.scanOnly(file);
+    ResponseEntity<Void> actualResp = cut._scanOnly(file);
     assertThat(actualResp.getStatusCode()).isEqualTo(HttpStatus.OK);
     verify(clamAvClient).scanForVirus(inputStream);
   }
@@ -103,7 +103,7 @@ class ApiControllerTest {
     InputStream inputStream = mock(InputStream.class);
     when(file.getInputStream()).thenReturn(inputStream);
     when(clamAvClient.scanForVirus(any())).thenReturn(true);
-    assertThrows(VirusDetectionException.class, () -> cut.scanOnly(file));
+    assertThrows(VirusDetectionException.class, () -> cut._scanOnly(file));
     verify(clamAvClient).scanForVirus(inputStream);
   }
 
@@ -112,7 +112,7 @@ class ApiControllerTest {
   void testScanVirusThrowsUnableToReadInputStreamFromUpload() throws IOException {
     MultipartFile file = mock(MultipartFile.class);
     when(file.getInputStream()).thenThrow(IOException.class);
-    assertThrows(FailReadUploadFileException.class, () -> cut.scanOnly(file));
+    assertThrows(FailReadUploadFileException.class, () -> cut._scanOnly(file));
     verify(clamAvClient, never()).scanForVirus(any(InputStream.class));
   }
 }

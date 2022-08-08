@@ -67,6 +67,7 @@ class KmsConfigTest {
   void testCreateCryptoConfigWithCustomPropValues() {
     CryptoConfigProperties props = mock(CryptoConfigProperties.class);
     given(props.getKmsOverride()).willReturn("http://localhost");
+    given(props.getRegion()).willReturn(Regions.EU_WEST_2);
     CryptoConfig actual = underTest.cryptoConfig(props);
     assertThat(actual).isNotNull();
     assertThat(actual.getRegion()).isEqualTo(Regions.EU_WEST_2);
@@ -77,6 +78,7 @@ class KmsConfigTest {
   void testCreateCryptoConfigWithoutPropValues() {
     CryptoConfigProperties props = mock(CryptoConfigProperties.class);
     given(props.getKmsOverride()).willReturn("");
+    given(props.getRegion()).willReturn(Regions.EU_WEST_2);
     CryptoConfig actual = underTest.cryptoConfig(props);
     assertThat(actual).isNotNull();
     assertThat(actual.getRegion()).isEqualTo(Regions.EU_WEST_2);

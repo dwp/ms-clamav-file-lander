@@ -22,6 +22,7 @@ public class KmsConfig {
     if (properties.getKmsOverride() != null && !properties.getKmsOverride().isBlank()) {
       config.setKmsEndpointOverride(properties.getKmsOverride());
     }
+    config.setRegion(properties.getRegion());
     return config;
   }
 

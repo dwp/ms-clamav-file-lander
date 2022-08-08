@@ -10,10 +10,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import uk.gov.dwp.health.clamav.constant.ResponseEnum;
 import uk.gov.dwp.health.clamav.openapi.model.FailureResponse;
-import uk.org.lidalia.slf4jext.Level;
-import uk.org.lidalia.slf4jtest.LoggingEvent;
-import uk.org.lidalia.slf4jtest.TestLogger;
-import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -22,8 +18,6 @@ import static org.mockito.Mockito.when;
 class AppControllerAdviseTest {
 
   private static AppControllerAdvise cut;
-  private final TestLogger testLogger = TestLoggerFactory.getTestLogger(AppControllerAdvise.class);
-
   @BeforeAll
   static void setupSpec() {
     cut = new AppControllerAdvise();
@@ -31,8 +25,7 @@ class AppControllerAdviseTest {
 
   @BeforeEach
   void setup() {
-    testLogger.clearAll();
-    ReflectionTestUtils.setField(cut, "log", testLogger);
+
   }
 
   @Test
@@ -42,8 +35,6 @@ class AppControllerAdviseTest {
     ResponseEntity<FailureResponse> actual = cut.handle500(ex);
     assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     assertThat(actual.getBody().getMessage()).isEqualTo(ResponseEnum.UNKNOWN.message);
-    assertThat(testLogger.getLoggingEvents())
-        .containsExactly(new LoggingEvent(Level.ERROR, "Unknown error {}", "ERROR ERROR"));
   }
 
   @Test
@@ -53,9 +44,6 @@ class AppControllerAdviseTest {
     ResponseEntity<Void> actual = cut.handle405(ex);
     assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.METHOD_NOT_ALLOWED);
     assertThat(actual.getBody()).isNull();
-    assertThat(testLogger.getLoggingEvents())
-        .containsExactly(
-            new LoggingEvent(Level.WARN, "Request method not allowed {}", "BAD METHOD"));
   }
 
   @Test
@@ -65,9 +53,6 @@ class AppControllerAdviseTest {
     ResponseEntity<Void> actual = cut.handle400(ex);
     assertThat(actual.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     assertThat(actual.getBody()).isNull();
-    assertThat(testLogger.getLoggingEvents())
-        .containsExactly(
-            new LoggingEvent(Level.WARN, "Request body validation failed {}", "BAD REQUEST BODY"));
   }
 
   @Test

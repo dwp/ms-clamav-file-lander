@@ -7,7 +7,7 @@ include:
     ref: 2-3-0
     file: 'ci-include-fragment-version-check.yml'
   - project: 'dwp/engineering/pipeline-fragments/required-fragment-check'
-    ref: 2-7-0
+    ref: 2-8-0
     file: 'ci-include-required-fragment-check.yml'
   #version-update
   - project: 'dwp/engineering/pipeline-fragments/update-semver'
@@ -18,31 +18,31 @@ include:
     ref: 2-2-0
     file: 'ci-include-gitleaks.yml'
   - project: 'dwp/engineering/pipeline-fragments/shell-check'
-    ref: 3-1-0
+    ref: 3-1-1
     file: 'ci-include-shell-check.yml'
   - project: 'dwp/engineering/pipeline-fragments/todo-checker'
-    ref: 2-1-0
+    ref: 2-1-1
     file: 'ci-include-todo-checker.yml'
   - project: 'dwp/engineering/pipeline-fragments/maven-checkstyle-lint'
-    ref: 3-2-0
+    ref: 3-3-0
     file: 'ci-include-maven-checkstyle-lint.yml'
   - project: 'dwp/engineering/pipeline-fragments/docker-lint'
-    ref: 2-3-0
+    ref: 2-4-0
     file: 'ci-include-docker-lint.yml'
   #code-test
   - project: 'dwp/engineering/pipeline-fragments/maven-api-test'
-    ref: 3-3-0
+    ref: 3-4-0
     file: 'ci-include-maven-api-test.yml'
   #application-build
   - project: 'dwp/engineering/pipeline-fragments/maven-api-build'
-    ref: 3-2-0
+    ref: 3-3-0
     file: 'ci-include-maven-api-build.yml'
   #code-analysis
   - project: 'dwp/engineering/pipeline-fragments/maven-api-pitest'
-    ref: 3-2-0
+    ref: 3-3-0
     file: 'ci-include-maven-api-pitest.yml'
   - project: 'dwp/engineering/pipeline-fragments/maven-api-spotbugs'
-    ref: 3-1-0
+    ref: 3-2-0
     file: 'ci-include-maven-api-spotbugs.yml'
   - project: 'dwp/engineering/pipeline-fragments/sonarqube'
     ref: 4-3-0
@@ -56,7 +56,7 @@ include:
     ref: 2-6-1
     file: 'ci-include-sast-container-check.yml'
   - project: 'dwp/engineering/pipeline-fragments/trivy-container-check'
-    ref: 2-6-1
+    ref: 2-7-0
     file: 'ci-include-trivy-container-check.yml'
   - project: 'dwp/engineering/pipeline-fragments/container-structure-test'
     ref: 2-3-1

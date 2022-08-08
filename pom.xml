@@ -5,41 +5,40 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.6.8</version>
+    <version>2.7.2</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>uk.gov.dwp.health.pip</groupId>
   <artifactId>clamav-file-lander</artifactId>
-  <version>2.2.4</version>
+  <version>2.2.5</version>
   <name>pip-clamav-file-landing-client</name>
   <description>PIP ClamAv and file landing service</description>
 
   <properties>
     <java.version>11</java.version>
-    <metadata-extractor.version>2.17.0</metadata-extractor.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <client.base.package.name>uk.gov.dwp.health.clamav</client.base.package.name>
-    <dwp.encoded.log.version>2.2.2-fa307a4d</dwp.encoded.log.version>
-    <dwp.data-cryptography.version>2.4.0-9e3c09fb</dwp.data-cryptography.version>
+    <dwp.encoded.log.version>2.2.3-112b45f6</dwp.encoded.log.version>
+    <dwp.data-cryptography.version>2.5.0-049755a9</dwp.data-cryptography.version>
     <dwp.pip2-shared.version>1.0.0-4b159a49</dwp.pip2-shared.version>
-    <aws.s3.version>2.17.174</aws.s3.version>
+    <aws.s3.version>2.17.209</aws.s3.version>
     <jackson-nullable.version>0.2.2</jackson-nullable.version>
     <swagger-annotations.version>1.6.6</swagger-annotations.version>
-    <apache.pdfbox.version>2.0.25</apache.pdfbox.version>
+    <apache.pdfbox.version>2.0.26</apache.pdfbox.version>
     <apache.tika.version>1.28.2</apache.tika.version>
-    <lidalia.version>1.2.0</lidalia.version>
     <preflight.version>2.0.26</preflight.version>
     <pdfbox-tools.version>2.0.26</pdfbox-tools.version>
-    <xmpbox.version>2.0.25</xmpbox.version>
+    <xmpbox.version>2.0.26</xmpbox.version>
     <commons-io.version>2.11.0</commons-io.version>
     <commons-compress.version>1.21</commons-compress.version>
-    <cxf-rt-rs-client.version>3.5.1</cxf-rt-rs-client.version>
+    <cxf-rt-rs-client.version>3.5.2</cxf-rt-rs-client.version>
     <jsoup.version>1.14.3</jsoup.version>
+    <metadata-extractor.version>2.18.0</metadata-extractor.version>
     <maven.compiler.version>3.10.1</maven.compiler.version>
     <plugin.maven.openapi-codegen.version>4.3.1</plugin.maven.openapi-codegen.version>
     <plugin.jacoco.version>0.8.8</plugin.jacoco.version>
-    <plugin.owasp.version>7.1.0</plugin.owasp.version>
+    <plugin.owasp.version>7.1.1</plugin.owasp.version>
     <plugin.spotbugs.version>4.2.2</plugin.spotbugs.version>
     <plugin.projectinfo.version>3.1.1</plugin.projectinfo.version>
     <plugin.surefire.version>2.22.2</plugin.surefire.version>
@@ -48,7 +47,8 @@
     <plugin.pitest.version>1.7.5</plugin.pitest.version>
     <plugin.maven.checkstyle.version>8.41.1</plugin.maven.checkstyle.version>
     <plugin.pitest-junit5.version>0.14</plugin.pitest-junit5.version>
-    <protobuf-java.version>3.20.1</protobuf-java.version>
+    <protobuf-java.version>3.21.1</protobuf-java.version>
+    <bc-fips.version>1.0.2.3</bc-fips.version>
   </properties>
   <dependencies>
     <dependency>
@@ -66,6 +66,10 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
       <groupId>software.amazon.awssdk</groupId>
       <artifactId>s3</artifactId>
       <version>${aws.s3.version}</version>
@@ -74,14 +78,22 @@
       <groupId>uk.gov.dwp.health.crypto</groupId>
       <artifactId>data-cryptography</artifactId>
       <version>${dwp.data-cryptography.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.amazonaws</groupId>
+          <artifactId>aws-java-sdk-kms</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-kms</artifactId>
+      <version>1.12.270</version>
     </dependency>
     <dependency>
-      <groupId>io.micrometer</groupId>
-      <artifactId>micrometer-registry-prometheus</artifactId>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bc-fips</artifactId>
+      <version>${bc-fips.version}</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -211,12 +223,6 @@
           <artifactId>junit-vintage-engine</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>uk.org.lidalia</groupId>
-      <artifactId>slf4j-test</artifactId>
-      <version>${lidalia.version}</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -369,7 +375,7 @@
             </goals>
             <configuration>
               <inputSpec>${project.basedir}/api-spec/openapi-spec.yaml</inputSpec>
-              <language>spring</language>
+              <generatorName>spring</generatorName>
               <library>spring-boot</library>
               <generateSupportingFiles>true</generateSupportingFiles>
               <modelPackage>${client.base.package.name}.openapi.model</modelPackage>
@@ -385,6 +391,7 @@
                 <java8>true</java8>
                 <useBeanValidation>true</useBeanValidation>
                 <delegatePattern>true</delegatePattern>
+                <skipDefaultInterface>true</skipDefaultInterface>
               </configOptions>
             </configuration>
           </execution>

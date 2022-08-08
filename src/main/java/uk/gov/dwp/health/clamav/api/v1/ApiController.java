@@ -28,7 +28,7 @@ public class ApiController implements V1Api {
   private final Validator validator;
 
   @Override
-  public ResponseEntity<FileUploadResponse> scanAndUpload(
+  public ResponseEntity<FileUploadResponse> _scanAndUpload(
       final ServiceRequestObject meta, final MultipartFile file) {
     log.info("Scan and persist file");
     if (!isMetaValid(meta)) {
@@ -39,7 +39,7 @@ public class ApiController implements V1Api {
   }
 
   @Override
-  public ResponseEntity<Void> scanOnly(MultipartFile file) {
+  public ResponseEntity<Void> _scanOnly(MultipartFile file) {
     try {
       log.info("Scan file only");
       if (clamAvClientService.scanForVirus(file.getInputStream())) {

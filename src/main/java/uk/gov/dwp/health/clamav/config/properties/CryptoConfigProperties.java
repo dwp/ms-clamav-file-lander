@@ -1,5 +1,6 @@
 package uk.gov.dwp.health.clamav.config.properties;
 
+import com.amazonaws.regions.Regions;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,4 +20,11 @@ public class CryptoConfigProperties {
 
   @NotBlank(message = "KMS data key required")
   private String dataKey;
+
+  private String region;
+
+  public Regions getRegion() {
+    return region == null || region.isBlank() ? Regions.EU_WEST_2 : Regions.fromName(region);
+  }
+
 }

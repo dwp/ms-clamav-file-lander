@@ -1,4 +1,4 @@
-FROM alpine:3.15.4
+FROM alpine:3.15.5
 
 ENV CLAMAV_VER=0.104.3-r0 \
     JRE_VER=11.0.15_p10-r0 \

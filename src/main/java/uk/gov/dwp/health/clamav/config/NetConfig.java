@@ -15,7 +15,6 @@ import java.net.Socket;
 @Generated
 @Configuration
 public class NetConfig {
-
   @Lazy
   @Bean
   @Scope(scopeName = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
