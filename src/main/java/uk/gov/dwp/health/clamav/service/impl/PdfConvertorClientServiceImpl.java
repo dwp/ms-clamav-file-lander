@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import uk.gov.dwp.health.clamav.config.properties.CVService;
 import uk.gov.dwp.health.clamav.config.properties.CVServiceConfigProperties;
 import uk.gov.dwp.health.clamav.exception.ConverterServiceException;
 import uk.gov.dwp.health.clamav.http.pdfconvertor.PdfConvertRequest;

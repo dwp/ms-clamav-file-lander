@@ -3,7 +3,6 @@ package uk.gov.dwp.health.clamav.service.impl;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.dwp.health.clamav.exception.ClamAvServiceException;
 import uk.gov.dwp.health.clamav.service.ClamAvClientService;
@@ -21,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class ClamAvClientImpl implements ClamAvClientService {
 
-  private static final int TIME_OUT = 7000;
+  private static final int TIME_OUT = 20000;
   private static final int BUFFER_SIZE = 2018;
 
   private final Socket socket;
@@ -49,11 +48,10 @@ public class ClamAvClientImpl implements ClamAvClientService {
           }
           read = stream.read(buffer);
         }
-        outputStream.write(new byte[] {0, 0, 0, 0});
+        outputStream.write(new byte[]{0, 0, 0, 0});
         outputStream.flush();
-        return is != null
-            && parseClamAvResponse(
-                IOUtils.toString(is.readAllBytes(), StandardCharsets.UTF_8.name()));
+        return is != null && parseClamAvResponse(IOUtils.toString(is.readAllBytes(),
+            StandardCharsets.UTF_8.name()));
       }
     } catch (IOException e) {
       final String msg = String.format("ClamAV client failure %s", e.getMessage());

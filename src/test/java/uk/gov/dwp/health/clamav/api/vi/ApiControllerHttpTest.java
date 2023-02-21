@@ -16,6 +16,7 @@ import uk.gov.dwp.health.clamav.api.v1.ApiController;
 import uk.gov.dwp.health.clamav.openapi.model.ServiceRequestObject;
 import uk.gov.dwp.health.clamav.service.impl.ClamAvClientImpl;
 import uk.gov.dwp.health.clamav.service.impl.FileUploadImpl;
+import uk.gov.dwp.health.clamav.utils.FileUtils;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,6 +30,7 @@ class ApiControllerHttpTest {
   @Autowired private MockMvc mockMvc;
   @MockBean private FileUploadImpl submission;
   @MockBean private ClamAvClientImpl clamAvClient;
+  @MockBean private FileUtils fileUtils;
 
   @BeforeAll
   static void setupSpec() {

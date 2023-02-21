@@ -1,55 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
   <suppress>
-    <notes><![CDATA[
-    parent: tika
-    <groupId>org.apache.sis.storage</groupId>
-    <artifactId>sis-netcdf</artifactId>
-    <version>1.0</version>
-    sis-netcdf-1.0.jar
-   ]]></notes>
-    <cve>CVE-2021-20291</cve>
-  </suppress>
-  <suppress>
-    <notes>
-      <![CDATA[
-      file name: vorbis-java-tika-0.8.jar
-      tika-core-1.28.2.jar
-      tika-parsers-1.28.2.jar
-      ]]>
-    </notes>
-    <cve>CVE-2017-6888</cve>
-    <cve>CVE-2022-30973</cve>
-    <cve>CVE-2022-30126</cve>
-  </suppress>
-  <suppress>
-    <notes>
-      <![CDATA[
-      file name: poi-4.1.2.jar
-      ]]>
-    </notes>
-    <cve>CVE-2022-26336</cve>
-  </suppress>
-  <suppress>
-    <notes>
-      <![CDATA[
-      file name: jdom2-2.0.6.jar
-      ]]>
-    </notes>
-    <cve>CVE-2021-33813</cve>
-  </suppress>
-  <suppress>
-    <notes>
-      <![CDATA[
-      file name: apache-mime4j-dom-0.8.4.jar
-      ]]>
-    </notes>
-    <cve>CVE-2021-40111</cve>
-    <cve>CVE-2021-40110</cve>
-    <cve>CVE-2021-38542</cve>
-    <cve>CVE-2021-40525</cve>
-  </suppress>
-  <suppress>
     <notes>
       <![CDATA[
       file name: xercesImpl-2.12.2.jar
@@ -60,9 +11,25 @@
   <suppress>
     <notes>
       <![CDATA[
-      file name: spring-web-5.3.22.jar
+      file name: spring-web-5.3.23.jar
       ]]>
     </notes>
     <cve>CVE-2016-1000027</cve>
+  </suppress>
+    <suppress>
+    <notes>
+      <![CDATA[file name:
+      bc-fips-1.0.2.3.jar
+      ]]>
+    </notes>
+    <cve>CVE-2022-45146</cve>
+  </suppress>
+    <suppress>
+    <notes>
+      <![CDATA[file name:
+      snakeyaml-1.33.jar
+      ]]>
+    </notes>
+    <cve>CVE-2022-1471</cve>
   </suppress>
 </suppressions>

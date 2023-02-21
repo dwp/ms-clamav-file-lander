@@ -17,6 +17,7 @@ import uk.gov.dwp.health.clamav.service.FileUploadService;
 
 import javax.validation.Validator;
 import java.io.IOException;
+import uk.gov.dwp.health.clamav.utils.FileUtils;
 
 @Slf4j
 @Controller
@@ -26,6 +27,8 @@ public class ApiController implements V1Api {
   private final FileUploadService fileUploadService;
   private final ClamAvClientService clamAvClientService;
   private final Validator validator;
+
+  private final FileUtils fileUtils;
 
   @Override
   public ResponseEntity<FileUploadResponse> _scanAndUpload(
@@ -42,11 +45,18 @@ public class ApiController implements V1Api {
   public ResponseEntity<Void> _scanOnly(MultipartFile file) {
     try {
       log.info("Scan file only");
+
+      log.info("Start scan for viruses");
       if (clamAvClientService.scanForVirus(file.getInputStream())) {
         log.warn("User upload file contains virus");
         throw new VirusDetectionException("Virus detected");
       }
-      log.info("Upload scanned and no virus detected");
+      log.info("No viruses were detected");
+
+      log.info("Check whether file is password protected");
+      fileUtils.validatePasswordProtection(file);
+
+      log.info("Scan has detected no viruses and the file is not password protected");
     } catch (IOException e) {
       final String msg = String.format("Fail to read from multipart file %s", e.getMessage());
       log.error(msg);

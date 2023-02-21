@@ -1,14 +1,14 @@
 ## File submission micro service
 
-This micro-service handles file submission from Citizen. The implementation compress [ClamAV](https://www.clamav.net)
+This micro-service handles file submissions from the Citizen. The implementation compress [ClamAV](https://www.clamav.net)
 is a free software, cross-platform and open-source antivirus, and a SpringBoot application serving as a bridge service
-between ClamAV to outside container, as well as AWS services.
+between ClamAV to an outside container, as well as AWS services.
 
 ### Rest API
 
 The service API definition can be found [openapi-spec-api.yaml](api-spec/openapi-spec.yaml)
 
-### Build a docker image with ClamAv and Springboot application from scratch
+### Build a docker image with ClamAv and SpringBoot application from scratch
 
 ```bash
 mvn clean verify
@@ -32,9 +32,9 @@ curl -v -H "Content-Type:multipart/form-data"
 -F "file=@{file}" -X POST "http://localhost:8080/v1/scan/upload"
 ```
 
-### Request and Response
+### Virus scan only Request and Response
 
-#### Request body for virus scan only, no file persist required
+#### Request body for virus scan only. No file persist required
 
 ```json
 {
@@ -57,7 +57,7 @@ curl -v -H "Content-Type:multipart/form-data"
 }
 ```
 
-##### Fail response body - status 406(virus detected)
+##### Fail response body - status 406 (virus detected)
 
 ```json
 {
@@ -65,21 +65,23 @@ curl -v -H "Content-Type:multipart/form-data"
 }
 ```
 
-##### Fail response body - status 406(Unable to open PDF file, file is password protected)
+##### Fail response body - status 406 (Unable to open PDF file, file is password protected)
 
 ```json
 {
-  "message": "PASSWORD_PROTECTED/MULTIPART FAIL"
+  "message": "PASSWORD PROTECTED"
 }
 ```
 
-##### Fail response body - status 500(multipart file upload failure), indicate service fail to receive the file from client
+##### Fail response body - status 500 (multipart file upload failure), indicate service fail to receive the file from client
 
 ```json
 {
   "message": "MULTIPART FAIL"
 }
 ```
+
+### Virus scan and persist file Request and Response
 
 #### Request body for virus scan and persist file to a designated S3 bucket
 
@@ -104,7 +106,7 @@ curl -v -H "Content-Type:multipart/form-data"
 }
 ```
 
-##### Fail response body - status 406(virus detected) or status 500(multipart or s3)
+##### Fail response body - status 406 (virus detected) or status 500 (multipart or s3)
 
 ```json
 {
@@ -112,7 +114,7 @@ curl -v -H "Content-Type:multipart/form-data"
 }
 ```
 
-##### Fail response body - status 500(multipart file upload failure or s3 upload failure)
+##### Fail response body - status 500 (multipart file upload failure or s3 upload failure)
 examples
 
 ```json
@@ -201,8 +203,8 @@ public class CVServiceConfigProperties {
 
 # System Requirement
 
-ClamAv requires minimum of 2gb ram to be lunched safely.
+ClamAv requires a minimum of 2GB of RAM to launch safely.
 
 # Initial delay
 
-The service has an initial delay as ClamAv starts up and possibly checking/updating virus library
+The service has an initial delay as ClamAv starts up and is possibly checking/updating the virus library.

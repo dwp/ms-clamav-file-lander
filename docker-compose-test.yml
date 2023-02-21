@@ -1,0 +1,56 @@
+version: "2.1"
+
+services:
+  ms-clamav-file-submission-service:
+    image: ${CLAMAV_FILE_IMAGE}
+    expose:
+      - 8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - AWS_S3_AWS_REGION=eu-west-2
+      - AWS_S3_ENDPOINT_OVERRIDE=http://localstack:4566
+      - AWS_S3_BUCKET=pip-bucket
+      - AWS_S3_ENCRYPT_ENABLE=true
+      - AWS_ENCRYPTION_KMS_OVERRIDE=http://localstack:4566
+      - AWS_ENCRYPTION_DATA_KEY=alias/test_key_id
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_NAME=test-ms-word-pdf
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_URI=http://word2pdf
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_ENDPOINT=/v1/convert/s3
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_TYPES[0]=application/msword
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[0]_TYPES[1]=application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_NAME=test-image-pdf
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_URI=http://img2pdf
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_ENDPOINT=/v1/convert/s3
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_TYPES[0]=image/jpeg
+      - UK_GOV_DWP_HEALTH_CONVERTER_SERVICES[1]_TYPES[1]=image/png
+      - SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE=20MB
+      - SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE=20MB
+      - HTTP_PROXY=locahost
+      - HTTP_PROXY_PORT=9999
+
+  ms-clamav-checker:
+    image: curlimages/curl
+    depends_on:
+      ms-clamav-file-submission-service:
+        condition: service_started
+    command: sleep infinity
+    volumes:
+      - ./src/test/resources/integration-test/files/test.txt/:/clamav/test.txt
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fs --location --request POST 'http://ms-clamav-file-submission-service:8080/v1/scan' -F 'file=@/clamav/test.txt' || exit 1"
+        ]
+      interval: 20s
+      timeout: 5s
+      retries: 120
+
+  image-tests:
+    image: curlimages/curl
+    depends_on:
+      ms-clamav-checker:
+        condition: service_healthy
+    command: [ "/clamtest/virus-scan.sh" ]
+    volumes:
+      - ./src/test/resources/integration-test:/clamtest

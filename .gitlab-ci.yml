@@ -25,6 +25,7 @@ stages:
   - code-analysis
   - image-build
   - container-image-test
+  - component-test
   - image-push
   - tactical-push-publish
   - update-project-metadata
@@ -38,6 +39,19 @@ include:
 required-fragment-check:
   variables:
     RULESET: MAVEN_CI
+
+api-test:
+  allow_failure: false
+  extends: .docker-compose-run
+  stage: component-test
+  variables:
+    DOCKER_COMPOSE_FILE: "docker-compose-test.yml"
+    DOCKER_COMPOSE_COMMAND: "--exit-code-from image-tests"
+  before_script:
+    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    - export CLAMAV_FILE_IMAGE="$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:${CI_COMMIT_SHA:0:8}"
+  after_script:
+    - docker logout
 
 create-develop-weekly-schedule:
   extends: .add-schedule

@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
 import uk.gov.dwp.health.clamav.config.properties.S3ConfigProperties;
@@ -24,12 +23,12 @@ public class S3Config {
             .endpointOverride(new URI(props.getEndpointOverride()))
             .serviceConfiguration(
                 S3Configuration.builder().pathStyleAccessEnabled(props.isPathStyleEnable()).build())
-            .region(Region.of(props.getAwsRegion()))
+            .region(props.getAwsRegion())
             .build()
         : S3Client.builder()
             .serviceConfiguration(
                 S3Configuration.builder().pathStyleAccessEnabled(props.isPathStyleEnable()).build())
-            .region(Region.of(props.getAwsRegion()))
+            .region(props.getAwsRegion())
             .build();
   }
 }

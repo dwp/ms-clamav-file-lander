@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.2</version>
+    <version>2.7.8</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>uk.gov.dwp.health.pip</groupId>
   <artifactId>clamav-file-lander</artifactId>
-  <version>2.2.5</version>
+  <version>2.3.0</version>
   <name>pip-clamav-file-landing-client</name>
   <description>PIP ClamAv and file landing service</description>
 
@@ -20,37 +20,89 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <client.base.package.name>uk.gov.dwp.health.clamav</client.base.package.name>
     <dwp.encoded.log.version>2.2.3-112b45f6</dwp.encoded.log.version>
-    <dwp.data-cryptography.version>2.5.0-049755a9</dwp.data-cryptography.version>
+    <dwp.data-cryptography.version>2.6.0-5e74cf1d</dwp.data-cryptography.version>
     <dwp.pip2-shared.version>1.0.0-4b159a49</dwp.pip2-shared.version>
-    <aws.s3.version>2.17.209</aws.s3.version>
-    <jackson-nullable.version>0.2.2</jackson-nullable.version>
-    <swagger-annotations.version>1.6.6</swagger-annotations.version>
-    <apache.pdfbox.version>2.0.26</apache.pdfbox.version>
-    <apache.tika.version>1.28.2</apache.tika.version>
+    <aws.s3.version>2.18.11</aws.s3.version>
+    <jackson-nullable.version>0.2.4</jackson-nullable.version>
+    <swagger-annotations.version>1.6.8</swagger-annotations.version>
+    <apache.pdfbox.version>2.0.27</apache.pdfbox.version>
+    <apache.tika.version>1.28.5</apache.tika.version>
     <preflight.version>2.0.26</preflight.version>
-    <pdfbox-tools.version>2.0.26</pdfbox-tools.version>
-    <xmpbox.version>2.0.26</xmpbox.version>
+    <pdfbox-tools.version>2.0.27</pdfbox-tools.version>
+    <xmpbox.version>2.0.27</xmpbox.version>
     <commons-io.version>2.11.0</commons-io.version>
     <commons-compress.version>1.21</commons-compress.version>
-    <cxf-rt-rs-client.version>3.5.2</cxf-rt-rs-client.version>
-    <jsoup.version>1.14.3</jsoup.version>
+    <cxf-rt-rs-client.version>3.5.5</cxf-rt-rs-client.version>
+    <jsoup.version>1.15.3</jsoup.version>
     <metadata-extractor.version>2.18.0</metadata-extractor.version>
     <maven.compiler.version>3.10.1</maven.compiler.version>
     <plugin.maven.openapi-codegen.version>4.3.1</plugin.maven.openapi-codegen.version>
     <plugin.jacoco.version>0.8.8</plugin.jacoco.version>
-    <plugin.owasp.version>7.1.1</plugin.owasp.version>
+    <plugin.owasp.version>8.0.2</plugin.owasp.version>
     <plugin.spotbugs.version>4.2.2</plugin.spotbugs.version>
     <plugin.projectinfo.version>3.1.1</plugin.projectinfo.version>
     <plugin.surefire.version>2.22.2</plugin.surefire.version>
     <plugin.pmd.version>3.16.0</plugin.pmd.version>
     <plugin.jxr.version>3.0.0</plugin.jxr.version>
     <plugin.pitest.version>1.7.5</plugin.pitest.version>
-    <plugin.maven.checkstyle.version>8.41.1</plugin.maven.checkstyle.version>
+    <plugin.maven.checkstyle.version>8.45.1</plugin.maven.checkstyle.version>
     <plugin.pitest-junit5.version>0.14</plugin.pitest-junit5.version>
-    <protobuf-java.version>3.21.1</protobuf-java.version>
+    <protobuf-java.version>3.21.9</protobuf-java.version>
     <bc-fips.version>1.0.2.3</bc-fips.version>
+    <aws-java-sdk-kms.version>1.12.332</aws-java-sdk-kms.version>
+    <snakeyaml.version>1.33</snakeyaml.version>
+    <jdom2.version>2.0.6.1</jdom2.version>
+    <jackson-databind.version>2.14.0</jackson-databind.version>
+    <netty.version>4.1.87.Final</netty.version>
+    <woodstox.version>6.5.0</woodstox.version>
+    <tomcat.version>9.0.71</tomcat.version>
   </properties>
   <dependencies>
+    <dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-transport</artifactId>
+    <version>${netty.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-transport-native-epoll</artifactId>
+    <version>${netty.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-transport-classes-epoll</artifactId>
+    <version>${netty.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-codec</artifactId>
+    <version>${netty.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-transport-native-unix-common</artifactId>
+    <version>${netty.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-buffer</artifactId>
+    <version>${netty.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>com.fasterxml.woodstox</groupId>
+    <artifactId>woodstox-core</artifactId>
+    <version>${woodstox.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat.embed</groupId>
+    <artifactId>tomcat-embed-core</artifactId>
+    <version>${tomcat.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.tomcat.embed</groupId>
+    <artifactId>tomcat-embed-websocket</artifactId>
+    <version>${tomcat.version}</version>
+    </dependency>
     <dependency>
       <groupId>uk.gov.dwp.logging</groupId>
       <artifactId>encoded-logger-output</artifactId>
@@ -64,6 +116,16 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson-databind.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>${snakeyaml.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -88,7 +150,7 @@
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-kms</artifactId>
-      <version>1.12.270</version>
+      <version>${aws-java-sdk-kms.version}</version>
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
@@ -172,6 +234,11 @@
           <artifactId>protobuf-java</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom2</artifactId>
+      <version>${jdom2.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.protobuf</groupId>

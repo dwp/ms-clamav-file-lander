@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.dwp.health.clamav.api.v1.ApiController;
 import uk.gov.dwp.health.clamav.exception.FailReadUploadFileException;
+import uk.gov.dwp.health.clamav.exception.FilePasswordProtectedException;
 import uk.gov.dwp.health.clamav.exception.RequestValidationException;
 import uk.gov.dwp.health.clamav.exception.VirusDetectionException;
 import uk.gov.dwp.health.clamav.openapi.model.FileUploadResponse;
@@ -26,14 +27,17 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import uk.gov.dwp.health.clamav.utils.FileUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,6 +48,7 @@ class ApiControllerTest {
   @Mock private FileUploadImpl fileSubmission;
   @Mock private Validator validator;
   @Mock private ClamAvClientImpl clamAvClient;
+  @Mock private FileUtils fileUtils;
 
   @Test
   void testScanAndUploadSuccessful() {
@@ -94,6 +99,21 @@ class ApiControllerTest {
     ResponseEntity<Void> actualResp = cut._scanOnly(file);
     assertThat(actualResp.getStatusCode()).isEqualTo(HttpStatus.OK);
     verify(clamAvClient).scanForVirus(inputStream);
+  }
+
+  @Test
+  @DisplayName("test scan only where the file is password protected")
+  void scanOnly_throwErrorForPasswordProtectedFile() throws IOException {
+    MultipartFile file = mock(MultipartFile.class);
+    InputStream inputStream = mock(InputStream.class);
+
+    when(file.getInputStream()).thenReturn(inputStream);
+    when(clamAvClient.scanForVirus(any())).thenReturn(false);
+    doThrow(new FilePasswordProtectedException("error message")).when(fileUtils).validatePasswordProtection(any());
+
+    assertThrows(FilePasswordProtectedException.class, () -> cut._scanOnly(file));
+    verify(clamAvClient, times(1)).scanForVirus(inputStream);
+    verify(fileUtils, times(1)).validatePasswordProtection(file);
   }
 
   @Test
