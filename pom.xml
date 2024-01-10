@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.8</version>
+    <version>2.7.18</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>uk.gov.dwp.health.pip</groupId>
   <artifactId>clamav-file-lander</artifactId>
-  <version>2.3.0</version>
+  <version>2.4.0</version>
   <name>pip-clamav-file-landing-client</name>
   <description>PIP ClamAv and file landing service</description>
 
@@ -21,7 +21,7 @@
     <client.base.package.name>uk.gov.dwp.health.clamav</client.base.package.name>
     <dwp.encoded.log.version>2.2.3-112b45f6</dwp.encoded.log.version>
     <dwp.data-cryptography.version>2.6.0-5e74cf1d</dwp.data-cryptography.version>
-    <dwp.pip2-shared.version>1.0.0-4b159a49</dwp.pip2-shared.version>
+    <dwp.pip2-shared.version>1.1.0-9a237c06</dwp.pip2-shared.version>
     <aws.s3.version>2.18.11</aws.s3.version>
     <jackson-nullable.version>0.2.4</jackson-nullable.version>
     <swagger-annotations.version>1.6.8</swagger-annotations.version>
@@ -48,14 +48,13 @@
     <plugin.maven.checkstyle.version>8.45.1</plugin.maven.checkstyle.version>
     <plugin.pitest-junit5.version>0.14</plugin.pitest-junit5.version>
     <protobuf-java.version>3.21.9</protobuf-java.version>
-    <bc-fips.version>1.0.2.3</bc-fips.version>
-    <aws-java-sdk-kms.version>1.12.332</aws-java-sdk-kms.version>
+    <bc-fips.version>1.0.2.4</bc-fips.version>
+    <aws-java-sdk-kms.version>1.12.457</aws-java-sdk-kms.version>
     <snakeyaml.version>1.33</snakeyaml.version>
     <jdom2.version>2.0.6.1</jdom2.version>
     <jackson-databind.version>2.14.0</jackson-databind.version>
-    <netty.version>4.1.87.Final</netty.version>
+    <netty.version>4.1.104.Final</netty.version>
     <woodstox.version>6.5.0</woodstox.version>
-    <tomcat.version>9.0.71</tomcat.version>
   </properties>
   <dependencies>
     <dependency>

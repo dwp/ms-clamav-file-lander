@@ -1,7 +1,7 @@
-FROM alpine:3.17.2
+FROM alpine:3.19
 
-ENV CLAMAV_VER=0.105.2-r0 \
-    JRE_VER=11.0.18_p10-r0 \
+ENV CLAMAV_VER=1.2.1-r0 \
+    JRE_VER=11.0.21_p9-r0 \
     RWX=750
 
 # initially set the database mirror to pull from the web and then set the mirror to be internal as the default
@@ -18,6 +18,9 @@ RUN apk --no-cache add clamav=$CLAMAV_VER clamav-libunrar=$CLAMAV_VER openjdk11-
     && sed -i 's/^DatabaseMirror .*$/DatabaseMirror https:\/\/dwp.gitlab.io\/engineering\/clamav-mirror/g' /etc/clamav/freshclam.conf
 
 COPY target/clamav-file-lander-*.jar /client.jar
+
+COPY --from=pik94420.live.dynatrace.com/linux/oneagent-codemodules-musl:java / /
+ENV LD_PRELOAD /opt/dynatrace/oneagent/agent/lib64/liboneagentproc.so
 
 RUN chmod $RWX /client.jar
 VOLUME ["/var/lib/clamav"]
