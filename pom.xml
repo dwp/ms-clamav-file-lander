@@ -10,7 +10,7 @@
   </parent>
   <groupId>uk.gov.dwp.health.pip</groupId>
   <artifactId>clamav-file-lander</artifactId>
-  <version>2.4.0</version>
+  <version>2.5.0</version>
   <name>pip-clamav-file-landing-client</name>
   <description>PIP ClamAv and file landing service</description>
 
@@ -31,14 +31,14 @@
     <pdfbox-tools.version>2.0.27</pdfbox-tools.version>
     <xmpbox.version>2.0.27</xmpbox.version>
     <commons-io.version>2.11.0</commons-io.version>
-    <commons-compress.version>1.21</commons-compress.version>
-    <cxf-rt-rs-client.version>3.5.5</cxf-rt-rs-client.version>
+    <commons-compress.version>1.26.2</commons-compress.version>
+    <cxf-rt-rs-client.version>3.6.3</cxf-rt-rs-client.version>
     <jsoup.version>1.15.3</jsoup.version>
     <metadata-extractor.version>2.18.0</metadata-extractor.version>
     <maven.compiler.version>3.10.1</maven.compiler.version>
     <plugin.maven.openapi-codegen.version>4.3.1</plugin.maven.openapi-codegen.version>
     <plugin.jacoco.version>0.8.8</plugin.jacoco.version>
-    <plugin.owasp.version>8.0.2</plugin.owasp.version>
+    <plugin.owasp.version>12.1.0</plugin.owasp.version>
     <plugin.spotbugs.version>4.2.2</plugin.spotbugs.version>
     <plugin.projectinfo.version>3.1.1</plugin.projectinfo.version>
     <plugin.surefire.version>2.22.2</plugin.surefire.version>
@@ -49,11 +49,11 @@
     <plugin.pitest-junit5.version>0.14</plugin.pitest-junit5.version>
     <protobuf-java.version>3.21.9</protobuf-java.version>
     <bc-fips.version>1.0.2.4</bc-fips.version>
-    <aws-java-sdk-kms.version>1.12.457</aws-java-sdk-kms.version>
+    <aws-java-sdk-kms.version>1.12.744</aws-java-sdk-kms.version>
     <snakeyaml.version>1.33</snakeyaml.version>
     <jdom2.version>2.0.6.1</jdom2.version>
     <jackson-databind.version>2.14.0</jackson-databind.version>
-    <netty.version>4.1.104.Final</netty.version>
+    <netty.version>4.1.111.Final</netty.version>
     <woodstox.version>6.5.0</woodstox.version>
   </properties>
   <dependencies>
@@ -370,7 +370,6 @@
         <artifactId>dependency-check-maven</artifactId>
         <version>${plugin.owasp.version}</version>
         <configuration>
-          <cveValidForHours>12</cveValidForHours>
           <failBuildOnCVSS>4</failBuildOnCVSS>
           <suppressionFile>src/main/resources/DependencySuppression.xml</suppressionFile>
         </configuration>

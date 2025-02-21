@@ -1,0 +1,13 @@
+variables:
+  # Repo
+  REPO_OWNER: "Health Community"
+  REPO_PATTERN: "V3.1 CI"
+  # Product
+  PRODUCT: shared
+  # Config
+  BUILD_TYPE: MAVEN
+  MAVEN_IMAGE: "maven:3-jdk-11"
+  MVN_OPTS: "-DLOG_LEVEL=INFO"
+  MVN_CLI_OPTS: "--batch-mode"
+  # Open-Source
+  GITHUB_REPO_NAME: ms-clamav-file-lander

@@ -1,16 +1,16 @@
-$schema: https://gitlab.com/dwp/secure-development/schema/project-metadata/-/raw/v1.0.0/schema/project-metadata.json
+$schema: https://gitlab.com/dwp/secure-development/schema/project-metadata/-/raw/v2.0.0/schema/project-metadata.json
 
-schema_version: 1.0.0
+schema_version: 2.0.0
 
 project:
   - project_id: 27361896
     component_name: ms-clamav-file-lander
 
-    version: 1.15.1
+    version: 2.5.0
 
     last_verified:
-      date: "2023-12-27"
-      name: "@mikael.alisson"
+      date: "2025-02-20"
+      name: "@kieran.stephenson"
 
     tags:
       payments: false

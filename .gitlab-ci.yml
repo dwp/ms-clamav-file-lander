@@ -1,60 +1,24 @@
-variables:
-  # Product
-  PRODUCT: shared
-  # Config
-  BUILD_TYPE: MAVEN
-  MAVEN_IMAGE: "maven:3-jdk-11"
-  MVN_OPTS: "-DLOG_LEVEL=INFO"
-  MVN_CLI_OPTS: "--batch-mode"
-  REPO_OWNER: "Team Goldcrest"
-  REPO_PATTERN: "V3 CI"
-  # Open-Source
-  GITHUB_REPO_NAME: ms-clamav-file-lander
-
-stages:
-  - update-version
-  - code-quality
-  - code-test
-  - application-build
-  - code-analysis
-  - image-build
-  - container-image-test
-  - component-test
-  - image-push
-  - tactical-push-publish
-  - update-project-metadata
-  - create-schedules
-  - open-source
-
-docker-build:
-  extends: .docker-build-template
-  before_script:
-    - echo $DT_API_TOKEN | docker login -u pik94420 --password-stdin https://pik94420.live.dynatrace.com
+########################################################################################
+###   Entrypoint yaml for the CI pipelines - use this to define:                     ###
+###     - pipeline includes for all config and jobs                                  ###
+########################################################################################
 
 include:
-  - local: "/gitlab-ci/includes.yml"
-
-required-fragment-check:
-  variables:
-    RULESET: MAVEN_CI
-
-api-test:
-  allow_failure: false
-  extends: .docker-compose-run
-  stage: component-test
-  variables:
-    DOCKER_COMPOSE_FILE: "docker-compose-test.yml"
-    DOCKER_COMPOSE_COMMAND: "--exit-code-from image-tests"
-  before_script:
-    - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
-    - export CLAMAV_FILE_IMAGE="$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:${CI_COMMIT_SHA:0:8}"
-  after_script:
-    - docker logout
-
-create-develop-weekly-schedule:
-  extends: .add-schedule
-  variables:
-    SCHEDULE_NAME: Weelky-Develop-CI-Build
-    SCHEDULE_BRANCH: develop
-    SCHEDULE_CRON: "0 22 * * 0"
-    RANDOMIZE_MINS: "true"
+  # config
+  - local: "/gitlab-ci/config/fragments.yml"
+  - local: "/gitlab-ci/config/stages.yml"
+  - local: "/gitlab-ci/config/constants.yml"
+  - local: "/gitlab-ci/config/pipeline.yml"
+  # standards
+  - local: "/gitlab-ci/jobs/pipeline-compliance.yml"
+  - local: "/gitlab-ci/jobs/code-quality.yml"
+  # maven
+  - local: "/gitlab-ci/jobs/java-maven.yml"
+  # docker
+  - local: "/gitlab-ci/jobs/docker.yml"
+  # docs
+  - local: "/gitlab-ci/jobs/documentation.yml"
+  # schedules
+  - local: "/gitlab-ci/jobs/schedules.yml"
+  # release
+  - local: "/gitlab-ci/jobs/version.yml"

@@ -1,0 +1,14 @@
+stages:
+  - update-version
+  - code-quality
+  - code-test
+  - application-build
+  - code-analysis
+  - image-build
+  - container-image-test
+  - component-test
+  - image-push
+  - tactical-push-publish
+  - update-project-metadata
+  - create-schedules
+  - open-source

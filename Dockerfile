@@ -1,7 +1,7 @@
 FROM alpine:3.19
 
-ENV CLAMAV_VER=1.2.1-r0 \
-    JRE_VER=11.0.21_p9-r0 \
+ENV CLAMAV_VER=1.2.2-r0 \
+    JRE_VER=11.0.26_p4-r0 \
     RWX=750
 
 # initially set the database mirror to pull from the web and then set the mirror to be internal as the default

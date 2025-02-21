@@ -11,19 +11,27 @@
   <suppress>
     <notes>
       <![CDATA[
-      file name: spring-web-5.3.23.jar
+      file name: spring-web-5.3.31.jar
       ]]>
     </notes>
     <cve>CVE-2016-1000027</cve>
+    <cve>CVE-2024-22262</cve>
+    <cve>CVE-2024-22243</cve>
+    <cve>CVE-2024-38820</cve>
+    <cve>CVE-2024-38808</cve>
+    <cve>CVE-2024-38828</cve>
+    <cve>CVE-2024-38809</cve>
+    <cve>CVE-2024-38816</cve>
   </suppress>
     <suppress>
     <notes>
       <![CDATA[file name:
-      bc-fips-1.0.2.3.jar
+      bc-fips-1.0.2.4.jar
       ]]>
     </notes>
     <cve>CVE-2022-45146</cve>
     <cve>CVE-2023-33202</cve>
+    <cve>CVE-2024-29857</cve>
   </suppress>
     <suppress>
     <notes>
@@ -32,15 +40,6 @@
       ]]>
     </notes>
     <cve>CVE-2022-1471</cve>
-  </suppress>
-  <suppress>
-    <notes>
-      <![CDATA[file name:
-      jackson-core-2.13.5.jar
-      ]]>
-    </notes>
-    <cve>CVE-2022-45688</cve>
-    <cve>CVE-2023-5072</cve>
   </suppress>
   <suppress>
     <notes>
@@ -79,19 +78,12 @@
   <suppress>
     <notes>
       <![CDATA[file name:
-       json-utils-2.18.11.jar
-      ]]>
-    </notes>
-    <cve>CVE-2023-5072</cve>
-  </suppress>
-  <suppress>
-    <notes>
-      <![CDATA[file name:
        logback-core-1.2.12.jar
       ]]>
     </notes>
     <cve>CVE-2023-6378</cve>
     <cve>CVE-2023-6481</cve>
+    <cve>CVE-2024-12798</cve>
   </suppress>
   <suppress>
     <notes>
@@ -101,4 +93,67 @@
     </notes>
     <cve>CVE-2023-39017</cve>
   </suppress>
+  <suppress>
+    <notes>
+      <![CDATA[file name:
+       apache-mime4j-core-0.8.4.jar
+      ]]>
+    </notes>
+    <cve>CVE-2024-21742</cve>
+  </suppress>
+  <suppress>
+    <notes>
+      <![CDATA[file name:
+       bcprov-jdk15on-1.70.jar
+      ]]>
+    </notes>
+    <cve>CVE-2024-34447</cve>
+    <cve>CVE-2024-30171</cve>
+  </suppress>
+  <suppress>
+    <notes>
+      <![CDATA[file name:
+       commons-io-2.11.0.jar
+      ]]>
+    </notes>
+    <cve>CVE-2024-47554</cve>
+  </suppress>
+  <suppress>
+    <notes>
+      <![CDATA[file name:
+       cxf-core-3.6.3.jar
+      ]]>
+    </notes>
+    <cve>CVE-2024-32007</cve>
+    <cve>CVE-2024-41172</cve>
+    <cve>CVE-2024-29736</cve>
+    <cve>CVE-2025-23184</cve>
+  </suppress>
+  <suppress>
+    <notes>
+      <![CDATA[file name:
+       netty-common-4.1.111.Final.jar
+       netty-handler-4.1.111.Final.jar
+      ]]>
+    </notes>
+    <cve>CVE-2024-47535</cve>
+    <cve>CVE-2025-24970</cve>
+  </suppress>
+  <suppress>
+    <notes>
+      <![CDATA[file name:
+       protobuf-java-3.21.9.jar
+      ]]>
+    </notes>
+    <cve>CVE-2024-7254</cve>
+  </suppress>
+  <suppress>
+    <notes>
+      <![CDATA[file name:
+       tomcat-embed-core-9.0.83.jar
+      ]]>
+    </notes>
+    <cve>CVE-2024-38286</cve>
+  </suppress>
+  
 </suppressions>
